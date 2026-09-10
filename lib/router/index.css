@@ -1,0 +1,9 @@
+.page {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-index-page);
+}
+
+.hide {
+  display: none;
+}

@@ -1,0 +1,57 @@
+{
+  "name": "@familyboat/mini-framework",
+  "private": false,
+  "version": "0.1.1",
+  "type": "module",
+  "exports": {
+    ".": "./lib/index.ts"
+  },
+  "types": "./lib/index.ts",
+  "files": [
+    "lib/**/*.ts",
+    "lib/**/*.css",
+    "lib/**/*.md",
+    "README.md"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "check:publish": "npm pack --dry-run",
+    "publish:check": "npm publish --dry-run --access public"
+  },
+  "description": "A lightweight DOM framework with route, modal, animation, interaction, and toast utilities.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/familyboat/mini-framework.git"
+  },
+  "homepage": "https://github.com/familyboat/mini-framework#readme",
+  "bugs": {
+    "url": "https://github.com/familyboat/mini-framework/issues"
+  },
+  "keywords": [
+    "typescript",
+    "dom",
+    "router",
+    "modal",
+    "animation"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "vite": "^8.2.2"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.1",
+    "typescript": "~6.0.2",
+    "vite": "^8.2.2"
+  },
+  "allowScripts": {
+    "fsevents@2.3.3": true
+  }
+}
