@@ -15,8 +15,13 @@ export {
   leftSlideOut,
   rightSlideOut,
 } from "./animate";
-export type { AnimationOptions } from "./animate";
-export type { AnimationName } from "./animate";
+export type {
+  AnimationOptions,
+  EnterAnimationName,
+  EnterAnimationNameMap,
+  LeaveAnimationName,
+  LeaveAnimationNameMap,
+} from "./animate";
 export { Modal } from "./modal";
 export type { ModalProps } from "./modal";
 export { Toast } from "./toast";

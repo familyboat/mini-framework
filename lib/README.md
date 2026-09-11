@@ -101,7 +101,7 @@ import {
 
 这类类名的职责是“告诉动画模块应该播放哪一种动画”，因此它们不应再混用 BEM 的 `__` / `--` 语法。
 
-### 4) 代码中的私有字段
+### 5) 代码中的私有字段
 
 TypeScript / JavaScript 中的私有字段使用 `_` 前缀：
 
@@ -112,7 +112,7 @@ TypeScript / JavaScript 中的私有字段使用 `_` 前缀：
 
 这部分是内部状态，不属于 CSS 类名，不参与 DOM 结构命名。
 
-### 5) 项目里当前的统一规则
+### 6) 项目里当前的统一规则
 
 项目里推荐的统一规则总结如下：
 
@@ -464,7 +464,42 @@ fadeIn(element, {
 
 ### 自定义动画
 
-不需要修改动画模块，只要在自己的 CSS 中让 class 名与 `@keyframes` 名相同：
+自定义动画有两部分组成：
+
+1. 通过声明合并扩展 `EnterAnimationNameMap` / `LeaveAnimationNameMap`，让 TypeScript 能识别新的动画名；
+2. 在你的 CSS 中定义对应的 class 名和 `@keyframes`，并按 `enterElement()` / `leaveElement()` 的方式调用。
+
+例如，扩展 enter / leave 的动画名称时，名称本身就应和 CSS 中的类名保持一致：
+
+```ts
+declare module "@familyboat/mini-framework" {
+  interface EnterAnimationNameMap {
+    "bounce-in": never;
+  }
+
+  interface LeaveAnimationNameMap {
+    "bounce-out": never;
+  }
+}
+```
+
+之后就可以直接这样使用：
+
+```ts
+enterElement(root, "bounce-in");
+leaveElement(root, "bounce-out");
+```
+
+如果要调整动画时长或延迟，请通过 `AnimationOptions`：
+
+```ts
+enterElement(root, "bounce-in", {
+  duration: "400ms",
+  delay: "100ms",
+});
+```
+
+在 CSS 中，类名要和 `@keyframes` 名保持一致，并且也要和扩展到的动画名称完全一致：
 
 ```css
 .bounce-in {
@@ -484,21 +519,34 @@ fadeIn(element, {
     transform: scale(1);
   }
 }
+
+.bounce-out {
+  --duration: 500ms;
+  --delay: 0s;
+  animation: bounce-out var(--duration) ease var(--delay);
+}
+
+@keyframes bounce-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
 ```
 
 然后调用：
 
 ```ts
 enterElement(element, "bounce-in");
-```
-
-离场动画使用：
-
-```ts
 leaveElement(element, "bounce-out");
 ```
 
-`leaveElement()` 在动画正常结束后会隐藏元素；如果动画被取消，则不会执行隐藏回调。
+其中，`leaveElement()` 在动画正常结束后会隐藏元素；如果动画被取消，则不会执行隐藏回调。
 
 ### 动画并发规则
 

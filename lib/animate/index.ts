@@ -4,10 +4,36 @@ import { withResolvers } from "../util";
 import "./index.css";
 
 /**
- * The CSS class and animation name used by an animation entry point.
- * The class name and the `@keyframes` name must be identical.
+ * Built-in enter animation names.
+ * External consumers can extend this interface via declaration merging.
  */
-export type AnimationName = string
+export interface EnterAnimationNameMap {
+  'fade-in': never
+  'left-slide-in': never
+  'right-slide-in': never
+}
+
+/**
+ * Built-in leave animation names.
+ * External consumers can extend this interface via declaration merging.
+ */
+export interface LeaveAnimationNameMap {
+  'fade-out': never
+  'left-slide-out': never
+  'right-slide-out': never
+}
+
+/**
+ * Public animation names for enter transitions.
+ * Built-in names keep editor auto-completion, while custom names remain supported.
+ */
+export type EnterAnimationName = keyof EnterAnimationNameMap
+
+/**
+ * Public animation names for leave transitions.
+ * Built-in names keep editor auto-completion, while custom names remain supported.
+ */
+export type LeaveAnimationName = keyof LeaveAnimationNameMap
 
 /** Options for customizing one animation call. */
 export type AnimationOptions = {
@@ -25,7 +51,7 @@ const activeAnimations = new WeakMap<HTMLElement, ActiveAnimation>()
 
 function animateElement(
   root: HTMLElement,
-  animationType: AnimationName,
+  animationType: EnterAnimationName | LeaveAnimationName,
   onEnd: () => void,
   options?: AnimationOptions,
 ): Promise<boolean> {
@@ -99,7 +125,7 @@ function animateElement(
  */
 export function enterElement(
   root: HTMLElement,
-  enterType: AnimationName,
+  enterType: EnterAnimationName,
   options?: AnimationOptions,
 ): Promise<boolean> {
   showElement(root)
@@ -119,7 +145,7 @@ export function enterElement(
  */
 export function leaveElement(
   root: HTMLElement,
-  leaveType: AnimationName,
+  leaveType: LeaveAnimationName,
   options?: AnimationOptions,
 ): Promise<boolean> {
   return animateElement(root, leaveType, () => hideElement(root), options)

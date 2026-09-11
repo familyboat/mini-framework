@@ -31,3 +31,10 @@
 ### Notes
 - This workspace currently does not contain a Git repository (`.git` directory is missing), so there is no actual Git history to rewrite or reorder here.
 - The changelog above is a curated summary of the work completed during this session.
+
+## 0.1.2 (2026-09-11)
+
+### Changed
+- Split animation naming exports into `EnterAnimationName` and `LeaveAnimationName` with separate `EnterAnimationNameMap` / `LeaveAnimationNameMap` extension points, and removed the generic `AnimationName` alias from the public API.
+- Updated the library README to document how custom animation names should match CSS class names and how to extend animation types via declaration merging.
+- Re-exported the new animation type maps from the package entry so the public API reflects the new extension model.
